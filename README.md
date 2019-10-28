@@ -9,8 +9,7 @@ The command line arguments have been completely reworked for 2.x. Arguments are 
 
 ```
 FodUpload.jar -bsi <token> -z <file> -ac <key> <secret> | -uc <username> <password> -ep <1|SingleScan|2|Subscription>
-[-purchase] [-b] [-I <minutes>] [-p <1|Standard|2|Express>] [-a <1|Manual|2|Automated>] 
-[-P <proxyUrl> <username> <password> <ntDomain> <ntWorkstation>] [-itp] [-os] [-r] [-h] [-v]
+[-purchase] [-I <minutes>] [-p <1|Standard|2|Express>] [-P <proxyUrl> <username> <password> <ntDomain> <ntWorkstation>] [-r] [-h] [-v]
 ```
 
 Each option has a short and long name:
@@ -21,18 +20,13 @@ Short Name | Long Name              | Required? | Description
  -z        | -zipLocation           | Yes       | Location of scan 
  -ep       | -entitlementPreference | Yes       | Whether to use a single scan or subscription assessment (if available) (1/Single, 2/Subscription)
  -ac       | -apiCredentials        | Yes*      | Api credentials ("key:" does not need to be appended to `<key>`)                                                  
- -uc       | -userCredentials       | Yes*      | User login credentials ex (wrap each in quotations to avoid escaping characters in the CLI)
- -a        | -auditPreferenceId     | No        | False positive audit type (1/Manual, 2/Automated)            
+ -uc       | -userCredentials       | Yes*      | User login credentials ex (wrap each in quotations to avoid escaping characters in the CLI)            
  -p        | -scanPreferenceId      | No        | Scan mode (1/Standard, 2/Express)                            
  -I        | -pollingInterval       | No        | Interval between checking scan status in minutes                 
  -P        | -proxy                 | No        | Credentials for accessing the proxy                   
- -os       | -runOpenSourceScan     | No        | Whether to run an Open Source Scan
  -h        | -help                  | No        | Print help dialog                                                
  -v        | -version               | No        | Print jar version   
- -itp      | -includeThirdPartyLibs | No        | Include Third Party Libraries from scan
  -r        | -isRemediationScan     | No        | Whether the scan is in remediation 
- -b        | -isBundledAssessment   | No        | Whether the scan is a bundled assessment
- -purchase | -purchaseEntitlement   | No		| Whether to purchase an entitlement (if available)
  -n        | -notes                 | No        | The notes about the scan.
 
 *One of either apiCredentials or userCredentials is required.

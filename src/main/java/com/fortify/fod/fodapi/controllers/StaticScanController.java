@@ -53,7 +53,8 @@ public class StaticScanController extends ControllerBase {
             if (parsedbsiToken == null) {
                 throw new Exception("Bsi Token given is invalid and cannot be parsed");
             }
-            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
+            // Disabled use of start-scan-advanced endpoint for start-scan
+            /* HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
                     .addPathSegments(String.format("/api/v3/releases/%d/static-scans/start-scan-advanced", parsedbsiToken.getProjectVersionId()))
                     .addQueryParameter("releaseId", Integer.toString(parsedbsiToken.getProjectVersionId()))
                     .addQueryParameter("bsiToken", fc.bsiToken.toString())
@@ -63,7 +64,30 @@ public class StaticScanController extends ControllerBase {
                     .addQueryParameter("inProgressScanActionType", fc.inProgressScanPreferenceType.toString())
                     .addQueryParameter("scanTool", fc.scanTool)
                     .addQueryParameter("scanToolVersion", fc.getImplementedVersion())
-                    .addQueryParameter("scanMethodType", fc.scanMethodType);
+                    .addQueryParameter("scanMethodType", fc.scanMethodType); */
+
+            String entitlementFrequencyType = null;
+            if (fc.entitlementPreference.toString() == "1"){
+                entitlementFrequencyType = "Single";
+            } else {
+                entitlementFrequencyType = "Subscription";
+            }
+
+            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
+                    .addEncodedPathSegment(String.format("/api/v3/releases/%d/static-scans/start-scan", parsedbsiToken.getProjectVersionId()))
+                    .addQueryParameter("assessmentTypeId", Integer.toString(parsedbsiToken.getAssessmentTypeId()))
+                    .addQueryParameter("technologyStack", parsedbsiToken.getTechnologyStack())
+                    .addQueryParameter("entitlementId", fc.entitlementPreference.toString())
+                    .addQueryParameter("entitlementFrequencyType", entitlementFrequencyType)
+                    .addQueryParameter("languageLevel", parsedbsiToken.getLanguageLevel())
+                    .addQueryParameter("isRemediationScan", fc.remediationScanPreference.toString())
+                    .addQueryParameter("doSonatypeScan", "true")
+                    .addQueryParameter("excludeThirdPartyLibs", "true")
+                    .addQueryParameter("auditPreferenceType", parsedbsiToken.getAuditPreference())
+                    .addQueryParameter("scanMethodType", fc.scanMethodType)
+                    .addQueryParameter("scanTool", fc.scanTool);
+
+
             if (fc.notes != null && !fc.notes.isEmpty()) {
                 String truncatedNotes = abbreviateString(fc.notes.trim(), MAX_NOTES_LENGTH);
                 builder = builder.addQueryParameter("notes", truncatedNotes);
