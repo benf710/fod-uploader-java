@@ -45,7 +45,7 @@ public class StaticScanController extends ControllerBase {
             int byteCount;
             long offset = 0;
 
-            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder().addEncodedPathSegment(String.format(
+            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder().addPathSegment(String.format(
                             "/api/v3/releases/%d/static-scans/start-scan", fc.release));
 
             // TODO: Come back and fix the request to set fragNo and offset query parameters
