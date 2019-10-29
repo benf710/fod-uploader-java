@@ -10,19 +10,14 @@ import com.google.gson.JsonSyntaxException;
 import okhttp3.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import com.fortify.fod.parser.converters.BsiTokenConverter;
-import com.fortify.fod.parser.BsiToken;
 
 import java.io.FileInputStream;
-import java.net.URLEncoder;
 import java.util.Arrays;
 
 public class StaticScanController extends ControllerBase {
     private final int CHUNK_SIZE = 1024 * 1024;
     private final int MAX_NOTES_LENGTH = 250;
     private int triggeredScanId = -1;
-    private BsiToken parsedbsiToken = null;
-    private static BsiTokenConverter parser = new BsiTokenConverter();
 
     /**
      * Constructor
@@ -50,25 +45,8 @@ public class StaticScanController extends ControllerBase {
             int byteCount;
             long offset = 0;
 
-            if (parsedbsiToken == null) {
-                throw new Exception("Bsi Token given is invalid and cannot be parsed");
-            }
-            // Disabled use of start-scan-advanced endpoint for start-scan
-            /* HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
-                    .addPathSegments(String.format("/api/v3/releases/%d/static-scans/start-scan-advanced", parsedbsiToken.getProjectVersionId()))
-                    .addQueryParameter("releaseId", Integer.toString(parsedbsiToken.getProjectVersionId()))
-                    .addQueryParameter("bsiToken", fc.bsiToken.toString())
-                    .addQueryParameter("entitlementPreferenceType", fc.entitlementPreference.toString())
-                    .addQueryParameter("purchaseEntitlement", Boolean.toString(fc.purchaseEntitlement))
-                    .addQueryParameter("remdiationScanPreferenceType", fc.remediationScanPreference.toString())
-                    .addQueryParameter("inProgressScanActionType", fc.inProgressScanPreferenceType.toString())
-                    .addQueryParameter("scanTool", fc.scanTool)
-                    .addQueryParameter("scanToolVersion", fc.getImplementedVersion())
-                    .addQueryParameter("scanMethodType", fc.scanMethodType); */
-
             HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder().addEncodedPathSegment(String.format(
-                            "/api/v3/releases/%d/static-scans/start-scan",
-                            parsedbsiToken.getProjectVersionId()));
+                            "/api/v3/releases/%d/static-scans/start-scan", fc.release));
 
             // TODO: Come back and fix the request to set fragNo and offset query parameters
             String fragUrl = builder.build().toString();

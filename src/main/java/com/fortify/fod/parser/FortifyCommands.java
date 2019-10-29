@@ -1,9 +1,7 @@
 package com.fortify.fod.parser;
 
 import com.beust.jcommander.Parameter;
-import com.fortify.fod.fodapi.FodEnums;
 import com.fortify.fod.parser.converters.*;
-import com.fortify.fod.parser.validators.BsiTokenValidator;
 import com.fortify.fod.parser.validators.FileValidator;
 
 import java.io.File;
@@ -41,6 +39,13 @@ public class FortifyCommands {
             description = "tenant",
             required = true)
     public String tenant;
+
+    private static final String RELEASE_ID = "-releaseId";
+    private static final String RELEASE_ID_SHORT = "-r";
+    @Parameter(names = {RELEASE_ID, RELEASE_ID_SHORT},
+            description = "release id",
+            required = true)
+    public Integer release;
 
     public String scanTool = "FoDUploader";
     public String scanMethodType = "CICD";

@@ -45,7 +45,7 @@ public class FodApi {
 
     /**
      * Constructor that encapsulates the api
-     * @param url baseUrl for the api (derived from the bsiUrl
+     * @param url baseUrl for the api
      * @param clProxy Proxy for the api calls to use
      */
     public FodApi(String url, Proxy clProxy, String portalUri) {

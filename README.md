@@ -17,7 +17,9 @@ Short Name | Long Name              | Required? | Description
 ---------- | ---------------------- |:---------:| --------------------------------------------------------
  -z        | -zipLocation           | Yes       | Location of scan 
  -ac       | -apiCredentials        | Yes*      | Api credentials ("key:" does not need to be appended to `<key>`)                                                  
- -uc       | -userCredentials       | Yes*      | User login credentials ex (wrap each in quotations to avoid escaping characters in the CLI)                       
+ -uc       | -userCredentials       | Yes*      | User login credentials ex (wrap each in quotations to avoid escaping characters in the CLI)  
+ -t        | -tenant                | Yes       | Tenant code
+ -r        | -releaseId             | Yes       | Release Id                     
  -P        | -proxy                 | No        | Credentials for accessing the proxy                   
  -h        | -help                  | No        | Print help dialog                                                
  -v        | -version               | No        | Print jar version   

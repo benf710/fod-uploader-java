@@ -5,13 +5,11 @@ import com.fortify.fod.fodapi.FodApi;
 import com.fortify.fod.parser.FortifyCommands;
 import com.fortify.fod.parser.Proxy;
 import com.fortify.fod.fodapi.controllers.*;
-import com.fortify.fod.parser.converters.BsiTokenConverter;
-import com.fortify.fod.parser.BsiToken;
 
 public class Main {
 
     /**
-	 * @param args Required: zip location, bsi url, username/password or api key/secret
+	 * @param args Required: zip location, username/password or api key/secret, tenant, releaseId
 	 */
 	public static void main(String[] args) {
         FortifyCommands fc = new FortifyCommands();

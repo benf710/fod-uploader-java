@@ -11,8 +11,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import com.fortify.fod.parser.BsiToken;
-import com.fortify.fod.parser.converters.BsiTokenConverter;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
