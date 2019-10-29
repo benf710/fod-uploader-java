@@ -6,6 +6,7 @@ import com.fortify.fod.fodapi.models.PostStartScanResponse;
 import com.fortify.fod.fodapi.models.ReleaseAssessmentTypeDTO;
 import com.fortify.fod.parser.FortifyCommands;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import okhttp3.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
@@ -66,27 +67,9 @@ public class StaticScanController extends ControllerBase {
                     .addQueryParameter("scanToolVersion", fc.getImplementedVersion())
                     .addQueryParameter("scanMethodType", fc.scanMethodType); */
 
-            String entitlementFrequencyType = null;
-            if (fc.entitlementPreference.toString() == "1"){
-                entitlementFrequencyType = "Single";
-            } else {
-                entitlementFrequencyType = "Subscription";
-            }
-
-            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
-                    .addEncodedPathSegment(String.format("/api/v3/releases/%d/static-scans/start-scan", parsedbsiToken.getProjectVersionId()))
-                    .addQueryParameter("assessmentTypeId", "283")
-                    .addQueryParameter("technologyStack", parsedbsiToken.getTechnologyStack())
-                    .addQueryParameter("entitlementId", "8241")
-                    .addQueryParameter("entitlementFrequencyType", entitlementFrequencyType)
-                    .addQueryParameter("languageLevel", parsedbsiToken.getLanguageLevel())
-                    .addQueryParameter("isRemediationScan", "false")
-                    .addQueryParameter("doSonatypeScan", "true")
-                    .addQueryParameter("excludeThirdPartyLibs", "true")
-                    .addQueryParameter("auditPreferenceType", parsedbsiToken.getAuditPreference())
-                    .addQueryParameter("scanMethodType", fc.scanMethodType)
-                    .addQueryParameter("scanTool", fc.scanTool);
-
+            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder().addEncodedPathSegment(String.format(
+                            "/api/v3/releases/%d/static-scans/start-scan",
+                            parsedbsiToken.getProjectVersionId()));
 
             if (fc.notes != null && !fc.notes.isEmpty()) {
                 String truncatedNotes = abbreviateString(fc.notes.trim(), MAX_NOTES_LENGTH);
@@ -140,9 +123,13 @@ public class StaticScanController extends ControllerBase {
                         triggeredScanId = scanStartedResponse.getScanId();
                         return true;
                     } else if (!response.isSuccessful()) {
-                        GenericErrorResponse errors = gson.fromJson(responseJsonStr, GenericErrorResponse.class);
-                        System.out.println("Package upload failed for the following reasons: " +
-                                errors.toString());
+                        try{
+                            GenericErrorResponse errors = gson.fromJson(responseJsonStr, GenericErrorResponse.class);
+                            System.out.println("Package upload failed for the following reasons: " +
+                                    errors.toString());
+                        } catch (JsonSyntaxException er){
+                            System.out.println(String.format("Failed to decode response: HTTP %s\n%s",response.code(), responseJsonStr));
+                        }
                         return false;
                     }
                 }
