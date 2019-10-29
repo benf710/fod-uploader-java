@@ -45,8 +45,7 @@ public class StaticScanController extends ControllerBase {
             int byteCount;
             long offset = 0;
 
-            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder().addPathSegment(String.format(
-                            "/api/v3/releases/%d/static-scans/start-scan-with-defaults", fc.release));
+            HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl() + String.format("/api/v3/releases/%d/static-scans/start-scan-with-defaults", fc.release)).newBuilder();
 
             // TODO: Come back and fix the request to set fragNo and offset query parameters
             String fragUrl = builder.build().toString();
@@ -66,7 +65,7 @@ public class StaticScanController extends ControllerBase {
                         .addHeader("Authorization", "Bearer " + api.getToken())
                         .addHeader("Content-Type", "application/octet-stream")
                         // Add offsets
-                        .url(fragUrl + "&fragNo=" + fragmentNumber++ + "&offset=" + offset)
+                        .url(fragUrl + "?fragNo=" + fragmentNumber++ + "&offset=" + offset)
                         .post(RequestBody.create(byteArray, sendByteArray))
                         .build();
                 // Get the response
