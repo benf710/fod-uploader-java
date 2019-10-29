@@ -75,9 +75,9 @@ public class StaticScanController extends ControllerBase {
 
             HttpUrl.Builder builder = HttpUrl.parse(api.getBaseUrl()).newBuilder()
                     .addEncodedPathSegment(String.format("/api/v3/releases/%d/static-scans/start-scan", parsedbsiToken.getProjectVersionId()))
-                    .addQueryParameter("assessmentTypeId", Integer.toString(parsedbsiToken.getAssessmentTypeId()))
+                    .addQueryParameter("assessmentTypeId", "283")
                     .addQueryParameter("technologyStack", parsedbsiToken.getTechnologyStack())
-                    .addQueryParameter("entitlementId", "2")
+                    .addQueryParameter("entitlementId", "8241")
                     .addQueryParameter("entitlementFrequencyType", entitlementFrequencyType)
                     .addQueryParameter("languageLevel", parsedbsiToken.getLanguageLevel())
                     .addQueryParameter("isRemediationScan", "false")
