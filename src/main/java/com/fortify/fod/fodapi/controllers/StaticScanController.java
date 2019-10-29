@@ -50,7 +50,6 @@ public class StaticScanController extends ControllerBase {
             int byteCount;
             long offset = 0;
 
-            parsedbsiToken = parser.convert(fc.bsiToken);
             if (parsedbsiToken == null) {
                 throw new Exception("Bsi Token given is invalid and cannot be parsed");
             }
@@ -71,10 +70,6 @@ public class StaticScanController extends ControllerBase {
                             "/api/v3/releases/%d/static-scans/start-scan",
                             parsedbsiToken.getProjectVersionId()));
 
-            if (fc.notes != null && !fc.notes.isEmpty()) {
-                String truncatedNotes = abbreviateString(fc.notes.trim(), MAX_NOTES_LENGTH);
-                builder = builder.addQueryParameter("notes", truncatedNotes);
-            }
             // TODO: Come back and fix the request to set fragNo and offset query parameters
             String fragUrl = builder.build().toString();
 
@@ -127,7 +122,7 @@ public class StaticScanController extends ControllerBase {
                             GenericErrorResponse errors = gson.fromJson(responseJsonStr, GenericErrorResponse.class);
                             System.out.println("Package upload failed for the following reasons: " +
                                     errors.toString());
-                        } catch (JsonSyntaxException er){
+                        } catch (JsonSyntaxException | NullPointerException er){
                             System.out.println(String.format("Failed to decode response: HTTP %s\n%s",response.code(), responseJsonStr));
                         }
                         return false;
