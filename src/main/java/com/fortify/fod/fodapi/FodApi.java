@@ -157,9 +157,9 @@ public class FodApi {
      */
     private OkHttpClient Create(Proxy clProxy) {
         OkHttpClient.Builder baseClient = new OkHttpClient().newBuilder()
-                .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
+                .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.MINUTES)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
+                .readTimeout(READ_TIMEOUT, TimeUnit.MINUTES);
 
         // If there's no proxy just create a normal client
         if(clProxy == null)
